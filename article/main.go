@@ -40,12 +40,30 @@ func main() {
 	// 3. gRPCクライアントを生成
 	client = pb.NewArticleServiceClient(conn)
 
-	// 4. 実行
-	Hello()
+	for {
+		fmt.Println("1: send Request")
+		fmt.Println("2: exit")
+		fmt.Print("please enter >")
+
+		scanner.Scan()
+		in := scanner.Text()
+
+		switch in {
+		case "1":
+			Hello()
+
+		case "2":
+			fmt.Println("bye.")
+			goto M
+		}
+	}
+M:
 }
 
 func Hello() {
-	name := "fujito"
+	fmt.Println("Please enter your name.")
+	scanner.Scan()
+	name := scanner.Text()
 
 	req := &pb.CreateArticleRequest{
 		ArticleInput: name,
