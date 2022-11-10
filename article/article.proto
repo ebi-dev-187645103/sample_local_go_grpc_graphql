@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package article;
+option go_package = "article/pb";
+
+// CREATEする記事の内容(author, title, content)を受け取る
+message CreateArticleRequest {
+	string articleInput = 1;
+}
+
+// CREATEした記事を返す
+message CreateArticleResponse {
+	string article = 1;
+}
+
+// articleサービスを定義
+service ArticleService {
+	rpc CreateArticle(CreateArticleRequest) returns(CreateArticleResponse);
+
+}
