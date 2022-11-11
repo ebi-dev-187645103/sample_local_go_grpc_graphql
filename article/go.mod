@@ -3,6 +3,7 @@ module github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article
 go 1.18
 
 require (
+	github.com/mattn/go-sqlite3 v1.14.16
 	google.golang.org/grpc v1.50.1
 	google.golang.org/protobuf v1.28.1
 )

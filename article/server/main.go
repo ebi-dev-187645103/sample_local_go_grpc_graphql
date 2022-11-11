@@ -23,7 +23,10 @@ func main() {
 	}
 
 	// Service作成
-	service := service.NewService()
+	service,err := service.NewService()
+	if err != nil{
+		panic(err)
+	}
 
 	// gRPCサーバーを作成
 	s := grpc.NewServer()
