@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"runtime"
 
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
 	"google.golang.org/grpc"
@@ -32,7 +33,6 @@ func NewClient(port string)(error) {
 	// 3. gRPCクライアントを生成
 	client :=&Client{conn,pb.NewArticleServiceClient(conn)}
 
-
 	client.Hello()
 	fmt.Println("client.NewClient: end")
 
@@ -45,7 +45,11 @@ type Client struct{
 }
 
 func (c *Client)Hello() {
-	fmt.Println("client.Hello: start")
+	programCounter,pwd,line,ok := runtime.Caller(0)
+	fn := runtime.FuncForPC(programCounter)
+	fmt.Println("Start: ",fn.Name())
+	fmt.Println(programCounter,pwd,line,ok)
+
 	name := "fujito"
 
 	req := &pb.CreateArticleRequest{
