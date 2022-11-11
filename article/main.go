@@ -2,22 +2,49 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/client"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 
 func main() {
 	common.PrintStart("gRPC Client")
 
+	// // クライアント作成
+	// err := client.NewClient(port)
+	// if err != nil{
+		// 	panic(err)
+	// }
+
+	// gRPCサーバーとのコネクションを確立
 	port := "8080"
-	// c,err := client.NewClient(port)
-	err := client.NewClient(port)
-	if err != nil{
-		fmt.Println(err)
-	}else{
-		// 4. 実行
-		common.PrintEnd("gRPC Client")
+	address := fmt.Sprintf("localhost:%s",port)
+	fmt.Println("address",address)
+	conn, err := grpc.Dial(
+		address,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithBlock(),
+	)
+	if err != nil {
+		log.Fatal("Connection failed.")
+		fmt.Println("NewClient: end")
+		// return nil,err
+		panic(err)
 	}
+	defer conn.Close()
+
+	// gRPCクライアントを生成
+	c :=&client.Client{
+		Conn:   conn,
+		Client: pb.NewArticleServiceClient(conn)}
+
+	c.Create()
+
+	common.PrintEnd("gRPC Client")
+
 }
