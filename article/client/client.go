@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"runtime"
 
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -13,7 +13,8 @@ import (
 
 // func NewClient(port string)(*Client,error) {
 func NewClient(port string)(error) {
-	fmt.Println("client.NewClient: start")
+	common.PrintStart("")
+
 	// 2. gRPCサーバーとのコネクションを確立
 	address := fmt.Sprintf("localhost:%s",port)
 	fmt.Println("address",address)
@@ -34,7 +35,7 @@ func NewClient(port string)(error) {
 	client :=&Client{conn,pb.NewArticleServiceClient(conn)}
 
 	client.Hello()
-	fmt.Println("client.NewClient: end")
+	common.PrintEnd("")
 
 	return nil
 }
@@ -45,10 +46,7 @@ type Client struct{
 }
 
 func (c *Client)Hello() {
-	programCounter,pwd,line,ok := runtime.Caller(0)
-	fn := runtime.FuncForPC(programCounter)
-	fmt.Println("Start: ",fn.Name())
-	fmt.Println(programCounter,pwd,line,ok)
+	common.PrintStart("")
 
 	name := "fujito"
 
@@ -61,5 +59,6 @@ func (c *Client)Hello() {
 	} else {
 		fmt.Println(res.GetArticle())
 	}
-	fmt.Println("client.Hello: end")
+
+	common.PrintEnd("")
 }

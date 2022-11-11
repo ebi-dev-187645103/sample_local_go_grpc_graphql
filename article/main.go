@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/client"
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 )
 
 
 func main() {
-	fmt.Println("start gRPC Client.")
+	common.PrintStart("gRPC Client")
 
 	port := "8080"
 	// c,err := client.NewClient(port)
@@ -17,7 +18,6 @@ func main() {
 		fmt.Println(err)
 	}else{
 		// 4. 実行
-		// c.Hello()
-		fmt.Println("end gRPC Client.")
+		common.PrintEnd("gRPC Client")
 	}
 }

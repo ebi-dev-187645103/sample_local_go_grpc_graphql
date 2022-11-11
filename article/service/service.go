@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
 )
 
@@ -20,6 +21,7 @@ func NewService()*Service{
 
 //
 func (s *Service)CreateArticle(ctx context.Context, req *pb.CreateArticleRequest)(*pb.CreateArticleResponse,error){
+	common.PrintStart("")
 	programCounter,pwd,line,ok := runtime.Caller(0)
 	fn := runtime.FuncForPC(programCounter)
 	fmt.Println("Start: ",fn.Name())
@@ -28,7 +30,7 @@ func (s *Service)CreateArticle(ctx context.Context, req *pb.CreateArticleRequest
 	fmt.Println("Serviceやで！")
 	id := "100"
 
-	fmt.Println("End: ",fn.Name())
+	common.PrintEnd("")
 	return &pb.CreateArticleResponse{
 		Article: id,
 	},nil
