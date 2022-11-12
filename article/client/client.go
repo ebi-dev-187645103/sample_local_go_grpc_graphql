@@ -34,3 +34,15 @@ func (c *Client)Create() {
 	fmt.Printf("CreateArticle Response: %v\n",res.GetArticle())
 	common.PrintEnd("")
 }
+
+func (c *Client)Read() {
+	var id int64 = 2
+	res,err := c.Client.ReadArticle(
+		context.Background(),
+		&pb.ReadArticleRequest{Id: id},
+	)
+	if err != nil{
+		log.Fatalf("Failde to ReadArticle: %v\n",err)
+	}
+	fmt.Printf("ReadArticle Response: %v\n",res)
+}

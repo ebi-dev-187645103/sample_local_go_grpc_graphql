@@ -51,22 +51,3 @@ func main() {
 	log.Println("stopping gRPC server...")
 	s.GracefulStop()
 }
-
-// type myServer struct{
-// 	pb.UnimplementedArticleServiceServer
-// }
-
-// // 自作サービス構造体のコンストラクタを定義
-// func NewMyServer()*myServer{
-// 	return &myServer{}
-// }
-// // func (s *myServer) CreateArticle(ctx context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
-
-// func (s *myServer) CreateArticle(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleResponse, error){
-
-// 	// リクエストからnameフィールドを取り出して
-// 	// "Hello, [名前]!"というレスポンスを返す
-// 	return &pb.CreateArticleResponse{
-// 		Article: fmt.Sprintf("Hello, %s!", req.GetArticleInput()),
-// 	}, nil
-// }

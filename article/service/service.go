@@ -25,7 +25,6 @@ func NewService()(*Service,error){
 	},nil
 }
 
-//
 func (s *Service)CreateArticle(ctx context.Context, req *pb.CreateArticleRequest)(*pb.CreateArticleResponse,error){
 	common.PrintStart("")
 	// INSERTする記事のInputを取得
@@ -45,5 +44,25 @@ func (s *Service)CreateArticle(ctx context.Context, req *pb.CreateArticleRequest
 			Content: input.Content,
 		},
 	},nil
+}
 
+func (s *Service)ReadArticle(ctx context.Context, req *pb.ReadArticleRequest)(*pb.ReadArticleResponse,error){
+	// INSERTする記事のInputを取得
+	id := req.GetId()
+
+	// DBから該当IDの記事を取得
+	a,err := s.repository.SelectArticleByID(ctx,id)
+	if err != nil{
+		return nil,err
+	}
+
+	// 取得した記事をレスポンスとして返す
+	return &pb.ReadArticleResponse{
+		Article: &pb.Article{
+			Id:      id,
+			Author:  a.Author,
+			Title:   a.Title,
+			Content: a.Content,
+		},
+	},nil
 }

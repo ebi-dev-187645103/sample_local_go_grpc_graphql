@@ -13,8 +13,7 @@ import (
 
 type Repository interface{
 	InsertArticle(context.Context,*pb.ArticleInput)(int64,error)
-	// InsertArticle(ctx context.Context, input *pb.ArticleInput)(int64,error)
-	// SelectArticleByID(ctx context.Context, id int64)(*pb.Article,error)
+	SelectArticleByID(context.Context,int64)(*pb.Article,error)
 	// UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error
 	// DeleteArticle(ctx context.Context, id int64)error
 	// SelectAllArticles()(*sql.Rows,error)
@@ -76,26 +75,25 @@ func (r *sqliteRepo) InsertArticle(ctx context.Context,input *pb.ArticleInput) (
 	return id, nil
 }
 
-// func (r *sqliteRepo) SelectArticleByID(ctx context.Context, id int64) (*pb.Article, error) {
-// 	// 該当IDの記事をSELECT
-// 	cmd := "SELECT * FROM articles WHERE id = ?"
-// 	row := r.db.QueryRow(cmd, id)
-// 	var a pb.Article
+func (r *sqliteRepo)SelectArticleByID(ctx context.Context,id int64)(*pb.Article,error){
+	// 該当IDの記事をSELECT
+	cmd := "SELECT * FROM articles WHERE id = ?"
+	row := r.db.QueryRow(cmd,id)
+	var a pb.Article
 
-// 	// SELECTした記事の内容を読み取る
-// 	err := row.Scan(&a.Id, &a.Author, &a.Title, &a.Content)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	// SELECTした記事の内容を読み取る
+	err := row.Scan(&a.Id, &a.Author, &a.Title, &a.Content)
+	if err != nil{
+		return nil,err
+	}
 
-// 	// SELECTした記事を返す
-// 	return &pb.Article{
-// 		Id:      a.Id,
-// 		Author:  a.Author,
-// 		Title:   a.Title,
-// 		Content: a.Content,
-// 	}, nil
-// }
+	return &pb.Article{
+		Id: a.Id,
+		Author: a.Author,
+		Title: a.Title,
+		Content: a.Content,
+	},nil
+}
 
 // func (r *sqliteRepo) UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error {
 // 	// 該当IDのAuthor, Title, ContentをUPDATE

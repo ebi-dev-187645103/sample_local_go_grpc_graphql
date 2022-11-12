@@ -44,6 +44,7 @@ func main() {
 		Client: pb.NewArticleServiceClient(conn)}
 
 	c.Create()
+	c.Read()
 
 	common.PrintEnd("gRPC Client")
 
