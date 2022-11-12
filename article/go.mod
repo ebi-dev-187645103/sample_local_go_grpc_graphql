@@ -1,4 +1,4 @@
-module github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article
+module github.com/ebi-dev-187645103/ebi-fujizuku/article
 
 go 1.18
 

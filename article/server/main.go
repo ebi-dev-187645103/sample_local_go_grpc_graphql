@@ -7,9 +7,9 @@ import (
 	"os"
 	"os/signal"
 
-	myConf "github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/config"
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/service"
+	myConf "github.com/ebi-dev-187645103/ebi-fujizuku/article/config"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/pb"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

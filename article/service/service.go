@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/repository"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/common"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/pb"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/repository"
 )
 
 // 自作サービスのインターフェース

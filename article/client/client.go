@@ -6,8 +6,8 @@ import (
 	"io"
 	"log"
 
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
-	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/common"
+	"github.com/ebi-dev-187645103/ebi-fujizuku/article/pb"
 )
 
 type Client struct{
