@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
@@ -28,10 +29,8 @@ func (c *Client)Create() {
 	}
 	res, err := c.Client.CreateArticle(context.Background(), req)
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(res.GetArticle())
+		log.Fatalf("Failed to CreateArticle: %v\n",err)
 	}
-
+	fmt.Printf("CreateArticle Response: %v\n",res.GetArticle())
 	common.PrintEnd("")
 }

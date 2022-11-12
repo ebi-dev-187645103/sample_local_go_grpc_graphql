@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net"
@@ -34,7 +33,6 @@ func main() {
 	s := grpc.NewServer()
 
 	// gRPCサーバーにGreetingServiceを登録
-	// pb.RegisterArticleServiceServer(s, NewMyServer())
 	pb.RegisterArticleServiceServer(s, service)
 
 	// サーバーリフレクションの設定
@@ -54,21 +52,21 @@ func main() {
 	s.GracefulStop()
 }
 
-type myServer struct{
-	pb.UnimplementedArticleServiceServer
-}
+// type myServer struct{
+// 	pb.UnimplementedArticleServiceServer
+// }
 
-// 自作サービス構造体のコンストラクタを定義
-func NewMyServer()*myServer{
-	return &myServer{}
-}
-// func (s *myServer) CreateArticle(ctx context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
+// // 自作サービス構造体のコンストラクタを定義
+// func NewMyServer()*myServer{
+// 	return &myServer{}
+// }
+// // func (s *myServer) CreateArticle(ctx context.Context, req *hellopb.HelloRequest) (*hellopb.HelloResponse, error) {
 
-func (s *myServer) CreateArticle(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleResponse, error){
+// func (s *myServer) CreateArticle(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleResponse, error){
 
-	// リクエストからnameフィールドを取り出して
-	// "Hello, [名前]!"というレスポンスを返す
-	return &pb.CreateArticleResponse{
-		Article: fmt.Sprintf("Hello, %s!", req.GetArticleInput()),
-	}, nil
-}
+// 	// リクエストからnameフィールドを取り出して
+// 	// "Hello, [名前]!"というレスポンスを返す
+// 	return &pb.CreateArticleResponse{
+// 		Article: fmt.Sprintf("Hello, %s!", req.GetArticleInput()),
+// 	}, nil
+// }

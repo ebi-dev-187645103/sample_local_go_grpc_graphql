@@ -15,13 +15,13 @@ option go_package = "article/pb";
 
 
 
-// // やり取りする記事の型定義
-// message Article {
-// 	int64 id = 1;
-// 	string author = 2;
-// 	string title = 3;
-// 	string content = 4;
-// }
+// やり取りする記事の型定義
+message Article {
+	int64 id = 1;
+	string author = 2;
+	string title = 3;
+	string content = 4;
+}
 
 // CREATEとUPDATEにおける入力のための型
 message ArticleInput {
@@ -37,14 +37,8 @@ message CreateArticleRequest {
 
 // CREATEした記事を返す
 message CreateArticleResponse {
-	string article = 1;
+	Article article = 1;
 }
-
-
-// // CREATEした記事を返す
-// message CreateArticleResponse {
-// 	Article article = 1;
-// }
 
 // articleサービスを定義
 service ArticleService {
