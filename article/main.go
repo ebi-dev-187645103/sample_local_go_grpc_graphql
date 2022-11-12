@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ebi-dev-187645103/ebi-fujizuku/article/client"
-	"github.com/ebi-dev-187645103/ebi-fujizuku/article/common"
-	"github.com/ebi-dev-187645103/ebi-fujizuku/article/pb"
+	"github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/client"
+	"github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/common"
+	"github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

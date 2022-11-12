@@ -6,9 +6,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ebi-dev-187645103/ebi-fujizuku/article/common"
-	myConf "github.com/ebi-dev-187645103/ebi-fujizuku/article/config"
-	"github.com/ebi-dev-187645103/ebi-fujizuku/article/pb"
+	"github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/common"
+	myConf "github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/config"
+	"github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article/pb"
 	_ "github.com/mattn/go-sqlite3"
 )
 

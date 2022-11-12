@@ -1,6 +1,6 @@
 https://zenn.dev/k88t76/books/f3892660871ab2/viewer/c21e29
 //Chapter2
-go mod init github.com/ebi-dev-187645103/ebi-fujizuku/article
+go mod init github.com/ebi-fujizuku/sample_local_go_grpc_graphql/article
 //Chapter3
 go get -u google.golang.org/grpc
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
