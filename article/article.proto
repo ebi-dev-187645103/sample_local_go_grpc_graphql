@@ -49,9 +49,20 @@ message UpdateArticleResponse{
 	Article article = 1;
 }
 
+// UPDATEする記事のIDを受け取る
+message DeleteArticleRequest{
+	int64 id = 1;
+}
+
+// UPDATEした記事のIDを返す
+message DeleteArticleResponse{
+	int64 id = 1;
+}
+
 // articleサービスを定義
 service ArticleService {
 	rpc CreateArticle(CreateArticleRequest) returns(CreateArticleResponse);
 	rpc ReadArticle(ReadArticleRequest) returns(ReadArticleResponse);
 	rpc UpdateArticle(UpdateArticleRequest) returns(UpdateArticleResponse);
+	rpc DeleteArticle(DeleteArticleRequest) returns(DeleteArticleResponse);
 }

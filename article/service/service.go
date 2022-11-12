@@ -86,3 +86,15 @@ func (s *Service)UpdateArticle(ctx context.Context, req *pb.UpdateArticleRequest
 		},
 	},nil
 }
+
+func (s *Service)DeleteArticle(ctx context.Context, req *pb.DeleteArticleRequest)(*pb.DeleteArticleResponse,error){
+	id    := req.GetId()
+
+	// 該当記事をUPDATE
+	if err := s.repository.DeleteArticle(ctx,id); err != nil{
+		return nil,err
+	}
+
+	// 取得した記事をレスポンスとして返す
+	return &pb.DeleteArticleResponse{Id: id},nil
+}

@@ -54,13 +54,24 @@ func (c *Client)Update() {
 		Title:   "smile on ranway",
 		Content: "chiyuki is so cool & cute",
 	}
-	// res,err := c.Client.UpdateArticle(
-	// 	context.Background(),
-	// 	&pb.UpdateArticleRequest{Id: id,ArticleInput: input},
-	// )
-	// if err != nil{
-	// 	log.Fatalf("Failed to UpdateArticle: %v\n",err)
-	// }
-	res := fmt.Sprintf("id: %v, input: %+v\n",id,input)
+	res,err := c.Client.UpdateArticle(
+		context.Background(),
+		&pb.UpdateArticleRequest{Id: id,ArticleInput: input},
+	)
+	if err != nil{
+		log.Fatalf("Failed to UpdateArticle: %v\n",err)
+	}
 	fmt.Printf("UpdateArticle Response: %v\n",res)
+}
+
+func (c *Client)Delete() {
+	var id int64= 1
+	res,err := c.Client.DeleteArticle(
+		context.Background(),
+		&pb.DeleteArticleRequest{Id: id},
+	)
+	if err != nil{
+		log.Fatalf("Failed to DeleteArticle: %v\n",err)
+	}
+	fmt.Printf("DeleteArticle Response: %v\n",res)
 }

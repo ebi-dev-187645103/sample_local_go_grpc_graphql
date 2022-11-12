@@ -14,8 +14,8 @@ import (
 type Repository interface{
 	InsertArticle(context.Context,*pb.ArticleInput)(int64,error)
 	SelectArticleByID(context.Context,int64)(*pb.Article,error)
-	UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error
-	// DeleteArticle(ctx context.Context, id int64)error
+	UpdateArticle(context.Context,int64,*pb.ArticleInput)error
+	DeleteArticle(context.Context,int64)error
 	// SelectAllArticles()(*sql.Rows,error)
 }
 
@@ -106,18 +106,16 @@ func (r *sqliteRepo)UpdateArticle(ctx context.Context,id int64,input *pb.Article
 	return nil
 }
 
+func (r *sqliteRepo)DeleteArticle(ctx context.Context,id int64)(error){
+	// 該当IDをDELETE
+	cmd := "DELETE FROM articles WHERE id = ?"
+	_, err := r.db.Exec(cmd, id)
+	if err != nil{
+		return err
+	}
 
-// func (r *sqliteRepo) DeleteArticle(ctx context.Context, id int64) error {
-// 	// 該当IDの記事をDELETE
-// 	cmd := "DELETE FROM articles WHERE id = ?"
-// 	_, err := r.db.Exec(cmd, id)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	// errorがなければ返り値なし
-// 	return nil
-// }
+	return nil
+}
 
 // func (r *sqliteRepo) SelectAllArticles() (*sql.Rows, error) {
 // 	// articlesテーブルの記事を全取得
