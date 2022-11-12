@@ -46,3 +46,21 @@ func (c *Client)Read() {
 	}
 	fmt.Printf("ReadArticle Response: %v\n",res)
 }
+
+func (c *Client)Update() {
+	var id int64= 2
+	input := &pb.ArticleInput{
+		Author:  "Izuku",
+		Title:   "smile on ranway",
+		Content: "chiyuki is so cool & cute",
+	}
+	// res,err := c.Client.UpdateArticle(
+	// 	context.Background(),
+	// 	&pb.UpdateArticleRequest{Id: id,ArticleInput: input},
+	// )
+	// if err != nil{
+	// 	log.Fatalf("Failed to UpdateArticle: %v\n",err)
+	// }
+	res := fmt.Sprintf("id: %v, input: %+v\n",id,input)
+	fmt.Printf("UpdateArticle Response: %v\n",res)
+}

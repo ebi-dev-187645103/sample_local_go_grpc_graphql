@@ -14,7 +14,7 @@ import (
 type Repository interface{
 	InsertArticle(context.Context,*pb.ArticleInput)(int64,error)
 	SelectArticleByID(context.Context,int64)(*pb.Article,error)
-	// UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error
+	UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error
 	// DeleteArticle(ctx context.Context, id int64)error
 	// SelectAllArticles()(*sql.Rows,error)
 }
@@ -95,17 +95,17 @@ func (r *sqliteRepo)SelectArticleByID(ctx context.Context,id int64)(*pb.Article,
 	},nil
 }
 
-// func (r *sqliteRepo) UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error {
-// 	// 該当IDのAuthor, Title, ContentをUPDATE
-// 	cmd := "UPDATE articles SET author = ?, title = ?, content = ? WHERE id = ?"
-// 	_, err := r.db.Exec(cmd, input.Author, input.Title, input.Content, id)
-// 	if err != nil {
-// 		return err
-// 	}
+func (r *sqliteRepo)UpdateArticle(ctx context.Context,id int64,input *pb.ArticleInput)(error){
+	// 該当IDをUPDATE
+	cmd := "UPDATE articles SET author = ?, title = ?, content = ? WHERE id = ?"
+	_, err := r.db.Exec(cmd, input.Author, input.Title, input.Content, id)
+	if err != nil{
+		return err
+	}
 
-// 	// errorがなければ返り値なし
-// 	return nil
-// }
+	return nil
+}
+
 
 // func (r *sqliteRepo) DeleteArticle(ctx context.Context, id int64) error {
 // 	// 該当IDの記事をDELETE

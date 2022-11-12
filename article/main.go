@@ -45,7 +45,7 @@ func main() {
 
 	c.Create()
 	c.Read()
-
+	c.Update()
 	common.PrintEnd("gRPC Client")
 
 }

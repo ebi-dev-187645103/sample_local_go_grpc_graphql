@@ -37,8 +37,21 @@ message ReadArticleRequest{
 message ReadArticleResponse{
 	Article article = 1;
 }
+
+// UPDATEする記事のIDと変更内容を受け取る
+message UpdateArticleRequest{
+	int64 id = 1;
+	ArticleInput articleInput = 2;
+}
+
+// UPDATEした記事を返す
+message UpdateArticleResponse{
+	Article article = 1;
+}
+
 // articleサービスを定義
 service ArticleService {
 	rpc CreateArticle(CreateArticleRequest) returns(CreateArticleResponse);
 	rpc ReadArticle(ReadArticleRequest) returns(ReadArticleResponse);
+	rpc UpdateArticle(UpdateArticleRequest) returns(UpdateArticleResponse);
 }

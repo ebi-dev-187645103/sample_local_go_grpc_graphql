@@ -66,3 +66,23 @@ func (s *Service)ReadArticle(ctx context.Context, req *pb.ReadArticleRequest)(*p
 		},
 	},nil
 }
+
+func (s *Service)UpdateArticle(ctx context.Context, req *pb.UpdateArticleRequest)(*pb.UpdateArticleResponse,error){
+	id    := req.GetId()
+	input := req.GetArticleInput()
+
+	// 該当記事をUPDATE
+	if err := s.repository.UpdateArticle(ctx,id,input); err != nil{
+		return nil,err
+	}
+
+	// 取得した記事をレスポンスとして返す
+	return &pb.UpdateArticleResponse{
+		Article: &pb.Article{
+			Id:      id,
+			Title:   input.Title,
+			Author:  input.Author,
+			Content: input.Content,
+		},
+	},nil
+}
