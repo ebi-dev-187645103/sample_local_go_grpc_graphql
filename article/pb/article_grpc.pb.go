@@ -26,6 +26,7 @@ type ArticleServiceClient interface {
 	ReadArticle(ctx context.Context, in *ReadArticleRequest, opts ...grpc.CallOption) (*ReadArticleResponse, error)
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*UpdateArticleResponse, error)
 	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*DeleteArticleResponse, error)
+	ListArticle(ctx context.Context, in *ListArticleRequest, opts ...grpc.CallOption) (ArticleService_ListArticleClient, error)
 }
 
 type articleServiceClient struct {
@@ -72,6 +73,38 @@ func (c *articleServiceClient) DeleteArticle(ctx context.Context, in *DeleteArti
 	return out, nil
 }
 
+func (c *articleServiceClient) ListArticle(ctx context.Context, in *ListArticleRequest, opts ...grpc.CallOption) (ArticleService_ListArticleClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArticleService_ServiceDesc.Streams[0], "/article.ArticleService/ListArticle", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &articleServiceListArticleClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArticleService_ListArticleClient interface {
+	Recv() (*ListArticleResponse, error)
+	grpc.ClientStream
+}
+
+type articleServiceListArticleClient struct {
+	grpc.ClientStream
+}
+
+func (x *articleServiceListArticleClient) Recv() (*ListArticleResponse, error) {
+	m := new(ListArticleResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ArticleServiceServer is the server API for ArticleService service.
 // All implementations must embed UnimplementedArticleServiceServer
 // for forward compatibility
@@ -80,6 +113,7 @@ type ArticleServiceServer interface {
 	ReadArticle(context.Context, *ReadArticleRequest) (*ReadArticleResponse, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleResponse, error)
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleResponse, error)
+	ListArticle(*ListArticleRequest, ArticleService_ListArticleServer) error
 	mustEmbedUnimplementedArticleServiceServer()
 }
 
@@ -98,6 +132,9 @@ func (UnimplementedArticleServiceServer) UpdateArticle(context.Context, *UpdateA
 }
 func (UnimplementedArticleServiceServer) DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticle not implemented")
+}
+func (UnimplementedArticleServiceServer) ListArticle(*ListArticleRequest, ArticleService_ListArticleServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListArticle not implemented")
 }
 func (UnimplementedArticleServiceServer) mustEmbedUnimplementedArticleServiceServer() {}
 
@@ -184,6 +221,27 @@ func _ArticleService_DeleteArticle_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArticleService_ListArticle_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListArticleRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArticleServiceServer).ListArticle(m, &articleServiceListArticleServer{stream})
+}
+
+type ArticleService_ListArticleServer interface {
+	Send(*ListArticleResponse) error
+	grpc.ServerStream
+}
+
+type articleServiceListArticleServer struct {
+	grpc.ServerStream
+}
+
+func (x *articleServiceListArticleServer) Send(m *ListArticleResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ArticleService_ServiceDesc is the grpc.ServiceDesc for ArticleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -208,6 +266,12 @@ var ArticleService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArticleService_DeleteArticle_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ListArticle",
+			Handler:       _ArticleService_ListArticle_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "article.proto",
 }

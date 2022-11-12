@@ -59,10 +59,20 @@ message DeleteArticleResponse{
 	int64 id = 1;
 }
 
+// 全取得の際、入力はなし
+message ListArticleRequest{
+}
+
+// UPDATEした記事を返す
+message ListArticleResponse{
+	Article article = 1;
+}
+
 // articleサービスを定義
 service ArticleService {
 	rpc CreateArticle(CreateArticleRequest) returns(CreateArticleResponse);
 	rpc ReadArticle(ReadArticleRequest) returns(ReadArticleResponse);
 	rpc UpdateArticle(UpdateArticleRequest) returns(UpdateArticleResponse);
 	rpc DeleteArticle(DeleteArticleRequest) returns(DeleteArticleResponse);
+	rpc ListArticle(ListArticleRequest) returns(stream ListArticleResponse);
 }

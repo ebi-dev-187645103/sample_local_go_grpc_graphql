@@ -16,7 +16,7 @@ type Repository interface{
 	SelectArticleByID(context.Context,int64)(*pb.Article,error)
 	UpdateArticle(context.Context,int64,*pb.ArticleInput)error
 	DeleteArticle(context.Context,int64)error
-	// SelectAllArticles()(*sql.Rows,error)
+	SelectAllArticles()(*sql.Rows,error)
 }
 
 type sqliteRepo struct{
@@ -116,15 +116,13 @@ func (r *sqliteRepo)DeleteArticle(ctx context.Context,id int64)(error){
 
 	return nil
 }
+func (r *sqliteRepo)SelectAllArticles()(*sql.Rows,error){
+	// 該当IDの記事をSELECT
+	cmd := "SELECT * FROM articles"
+	rows,err := r.db.Query(cmd)
+	if err != nil{
+		return nil,err
+	}
 
-// func (r *sqliteRepo) SelectAllArticles() (*sql.Rows, error) {
-// 	// articlesテーブルの記事を全取得
-// 	cmd := "SELECT * FROM articles"
-// 	rows, err := r.db.Query(cmd)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// 全取得した記事を*sql.Rowsの形で返す
-// 	return rows, nil
-// }
+	return rows,nil
+}

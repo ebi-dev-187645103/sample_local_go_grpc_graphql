@@ -3,16 +3,16 @@ package client
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
-	"google.golang.org/grpc"
 )
 
 type Client struct{
-	Conn   *grpc.ClientConn
-	Client pb.ArticleServiceClient
+	Service pb.ArticleServiceClient
+
 }
 
 func (c *Client)Create() {
@@ -27,7 +27,7 @@ func (c *Client)Create() {
 	req := &pb.CreateArticleRequest{
 		ArticleInput: articleInfo,
 	}
-	res, err := c.Client.CreateArticle(context.Background(), req)
+	res, err := c.Service.CreateArticle(context.Background(), req)
 	if err != nil {
 		log.Fatalf("Failed to CreateArticle: %v\n",err)
 	}
@@ -37,7 +37,7 @@ func (c *Client)Create() {
 
 func (c *Client)Read() {
 	var id int64 = 2
-	res,err := c.Client.ReadArticle(
+	res,err := c.Service.ReadArticle(
 		context.Background(),
 		&pb.ReadArticleRequest{Id: id},
 	)
@@ -54,7 +54,7 @@ func (c *Client)Update() {
 		Title:   "smile on ranway",
 		Content: "chiyuki is so cool & cute",
 	}
-	res,err := c.Client.UpdateArticle(
+	res,err := c.Service.UpdateArticle(
 		context.Background(),
 		&pb.UpdateArticleRequest{Id: id,ArticleInput: input},
 	)
@@ -66,7 +66,7 @@ func (c *Client)Update() {
 
 func (c *Client)Delete() {
 	var id int64= 1
-	res,err := c.Client.DeleteArticle(
+	res,err := c.Service.DeleteArticle(
 		context.Background(),
 		&pb.DeleteArticleRequest{Id: id},
 	)
@@ -74,4 +74,33 @@ func (c *Client)Delete() {
 		log.Fatalf("Failed to DeleteArticle: %v\n",err)
 	}
 	fmt.Printf("DeleteArticle Response: %v\n",res)
+}
+
+
+
+type Client_ServerStream struct{
+	Service pb.ArticleServiceClient
+}
+func (c_ss *Client_ServerStream)List() {
+	//streamレスポンスを受ける
+	stream,err := c_ss.Service.ListArticle(
+		context.Background(),
+		&pb.ListArticleRequest{},
+	)
+	if err != nil{
+		log.Fatalf("Failed to ListArticle: %v\n",err)
+	}
+
+	// Server Streamで渡されたレスポンスを1つ1つ出力
+	for{
+		res,err := stream.Recv()
+		if err == io.EOF{
+			fmt.Println("all the responses have already received.")
+			break
+		}
+		if err != nil{
+			log.Fatalf("Failed to Server Streaming: %v\n",err)
+		}
+		fmt.Println(res)
+	}
 }

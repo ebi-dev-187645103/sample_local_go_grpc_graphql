@@ -38,15 +38,22 @@ func main() {
 	}
 	defer conn.Close()
 
-	// gRPCクライアントを生成
+	// UnaryのgRPCクライアントを生成
 	c :=&client.Client{
-		Conn:   conn,
-		Client: pb.NewArticleServiceClient(conn)}
+		Service: pb.NewArticleServiceClient(conn),
+	}
 
 	c.Create()
 	c.Read()
 	c.Update()
 	c.Delete()
+
+	// c.list()
+	// ServerStreamのgRPCクライアントを生成
+	c_ss :=&client.Client_ServerStream{
+		Service: pb.NewArticleServiceClient(conn),
+	}
+	c_ss.List()
 	common.PrintEnd("gRPC Client")
 
 }
