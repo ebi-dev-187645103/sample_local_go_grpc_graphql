@@ -12,7 +12,6 @@ import (
 
 type Client struct{
 	Service pb.ArticleServiceClient
-
 }
 
 func (c *Client)Create() {

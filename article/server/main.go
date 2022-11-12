@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	myConf.NewConfig()
+	myConf.NewConfig("../config/.env")
 	// 8080番portのLisnterを作成
 	port := 8080
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))

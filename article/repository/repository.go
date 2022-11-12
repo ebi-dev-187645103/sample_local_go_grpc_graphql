@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/ebi-dev-187645103/ebi-fujizuku/article/common"
@@ -28,6 +29,9 @@ func NewSqliteRepo()(Repository,error){
 	fmt.Println("repository.NewsqliteRepo")
 	fmt.Println("  conf",myConf.Conf)
 	fmt.Println("  Sqlite3_path",myConf.Conf.Sqlite3_path)
+	if myConf.Conf.Sqlite3_path ==""{
+		panic(errors.New("Sqlite3_path が 空文字です。/article/.env SQLITE3_PATHを確認してください。"))
+	}
 	db,err := sql.Open("sqlite3",myConf.Conf.Sqlite3_path)
 	if err != nil{
 		fmt.Println("  Failed DB_Open")
