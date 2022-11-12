@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 
+	myConf "github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/config"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
 	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/service"
 	"google.golang.org/grpc"
@@ -15,6 +16,7 @@ import (
 )
 
 func main() {
+	myConf.NewConfig()
 	// 8080番portのLisnterを作成
 	port := 8080
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", port))

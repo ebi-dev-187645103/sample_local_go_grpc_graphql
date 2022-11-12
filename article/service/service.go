@@ -32,7 +32,7 @@ func (s *Service)CreateArticle(ctx context.Context, req *pb.CreateArticleRequest
 
 	// 記事をDBにINSERTし、INSERTした記事のIDを返す
 	// id,err := s.repository.InsertArticle(ctx,input)
-	id,err := s.repository.InsertArticle(ctx)
+	id,err := s.repository.InsertArticle(ctx,req.ArticleInput)
 	if err != nil{
 		return nil,err
 	}

@@ -5,12 +5,14 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/common"
 	myConf "github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/config"
+	"github.com/ebi-dev-187645103/sample_local_go_grpc_graphql/article/pb"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type Repository interface{
-	InsertArticle(ctx context.Context)(int64,error)
+	InsertArticle(context.Context,*pb.ArticleInput)(int64,error)
 	// InsertArticle(ctx context.Context, input *pb.ArticleInput)(int64,error)
 	// SelectArticleByID(ctx context.Context, id int64)(*pb.Article,error)
 	// UpdateArticle(ctx context.Context, id int64, input *pb.ArticleInput)error
@@ -23,37 +25,41 @@ type sqliteRepo struct{
 }
 
 func NewSqliteRepo()(Repository,error){
+	common.PrintStart("")
 	fmt.Println("repository.NewsqliteRepo")
+	fmt.Println("  conf",myConf.Conf)
 	fmt.Println("  Sqlite3_path",myConf.Conf.Sqlite3_path)
 	db,err := sql.Open("sqlite3",myConf.Conf.Sqlite3_path)
 	if err != nil{
+		fmt.Println("  Failed DB_Open")
 		return nil,err
 	}
+	fmt.Println("  DB_Open")
 
 	//articlesテーブルを作成
 	cmd := `CREATE TABLE IF NOT EXISTS articles(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          author  STRING,
-          title   STRING,
-          content STRING
-          )`
-	_,err = db.Exec(cmd)
-	if err != nil{
-		return nil,err
-	}
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		author  STRING,
+		title   STRING,
+		content STRING
+		)`
+		_,err = db.Exec(cmd)
+		if err != nil{
+			fmt.Println("  Failed DB_Create")
+			return nil,err
+		}
+		fmt.Println("  DB_Create")
+
+		common.PrintEnd("")
 	return &sqliteRepo{db},nil
 }
 
-// func (r *sqliteRepo) InsertArticle(ctx context.Context, input *pb.ArticleInput) (int64, error) {
-func (r *sqliteRepo) InsertArticle(ctx context.Context) (int64, error) {
+func (r *sqliteRepo) InsertArticle(ctx context.Context,input *pb.ArticleInput) (int64, error) {
+	common.PrintStart("")
 	fmt.Println("repository.InsertArticle")
 	// Inputの内容(Author, Title, Content)をarticlesテーブルにINSERT
-	tmpAuthor:="kkkkk"
-	tmpTitle:="aaaa"
-	tmpContent:="bbbbb"
 	cmd := "INSERT INTO articles(author, title, content) VALUES (?, ?, ?)"
-	// result, err := r.db.Exec(cmd, input.Author, input.Title, input.Content)
-	result, err := r.db.Exec(cmd, tmpAuthor, tmpTitle, tmpContent)
+	result, err := r.db.Exec(cmd, input.Author, input.Title, input.Content)
 	if err != nil {
 		return 0, err
 	}
@@ -66,6 +72,7 @@ func (r *sqliteRepo) InsertArticle(ctx context.Context) (int64, error) {
 	}
 
 	// INSERTした記事のIDを返す
+	common.PrintEnd("")
 	return id, nil
 }
 

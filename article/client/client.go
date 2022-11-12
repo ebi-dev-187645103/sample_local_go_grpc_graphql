@@ -17,10 +17,14 @@ type Client struct{
 func (c *Client)Create() {
 	common.PrintStart("")
 
-	name := "fujito"
+	articleInfo := &pb.ArticleInput{
+		Author:  "fujito",
+		Title:   "my hero academia",
+		Content: "so nice Mange and Animetion",
+	}
 
 	req := &pb.CreateArticleRequest{
-		ArticleInput: name,
+		ArticleInput: articleInfo,
 	}
 	res, err := c.Client.CreateArticle(context.Background(), req)
 	if err != nil {
